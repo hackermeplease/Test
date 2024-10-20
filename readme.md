@@ -2,7 +2,7 @@
   <img src="https://github.com/user-attachments/assets/1952f21e-2152-4097-b8c2-9d06bed8aa8c" alt="FXOP-MD Logo" width="200"/>
 </p>
 
-<h3 align="center">ＦＸ－ＢＯＴ ２．５．０</h3>
+<h3 align="center">Test</h3>
 
 <p align="center">
   <strong>Streamline your WhatsApp workflow with automation and customization</strong>
@@ -25,7 +25,7 @@
 ### Deployments
 
 <div align="center">
-  <a href="https://www.heroku.com/deploy?template=https://github.com/FXastro/fxop-md">
+  <a href="https://www.heroku.com/deploy?template=https://github.com/betingrich4/Test">
     <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" height="32">
   </a>
   &nbsp;&nbsp;
