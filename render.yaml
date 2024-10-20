@@ -1,0 +1,15 @@
+services:
+ - type: worker
+   name: demo
+   env: docker
+   plan: free
+   dockerfilePath: ./Dockerfile
+   envVars:
+    - key: SESSION_ID
+      value: Session~
+    - key: BOT_INFO
+      value: Test
+    - key: SUDO
+      value: 254740007567
+    - key: ANTILINK
+      value: "true"
