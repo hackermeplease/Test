@@ -1,15 +1,18 @@
 services:
- - type: worker
-   name: demo
-   env: docker
-   plan: free
-   dockerfilePath: ./Dockerfile
-   envVars:
-    - key: SESSION_ID
-      value: Session~
-    - key: BOT_INFO
-      value: Test
-    - key: SUDO
-      value: 254740007567
-    - key: ANTILINK
-      value: "true"
+  - type: web  # Changed from worker to web for port binding
+    name: whatsapp-bot
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: PORT
+        value: 7860  # Must match your app port
+      - key: SESSION_ID
+        value: Session~
+      - key: BOT_INFO
+        value: Test
+      - key: SUDO
+        value: "255772940535"  # Quoted number
+      - key: ANTILINK
+        value: "true"
