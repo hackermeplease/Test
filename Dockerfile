@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Copy only package.json first
 COPY package.json .
-RUN npm install --omit=dev
+RUN npm install 
 
 # Copy app source
 COPY . .
