@@ -26,17 +26,16 @@ RUN echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.l
 # Copy package files
 COPY package*.json ./
 
-# Solution 1: Force HTTPS for GitHub (recommended)
+# Solution 1: For public repositories (recommended)
+# Force HTTPS and disable strict SSL if behind corporate proxy
 RUN git config --global url."https://github.com/".insteadOf "ssh://git@github.com/" && \
-    npm config set @your-org:registry=https://npm.pkg.github.com && \
+    git config --global url."https://".insteadOf "git://" && \
+    npm config set strict-ssl false && \
     npm install
 
-# Alternative Solution 2: If you MUST use SSH (for private repos)
-# ARG SSH_PRIVATE_KEY
-# RUN mkdir -p ~/.ssh && \
-#     echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa && \
-#     chmod 600 ~/.ssh/id_rsa && \
-#     ssh-keyscan github.com >> ~/.ssh/known_hosts && \
+# Solution 2: For private repositories requiring authentication
+# RUN git config --global url."https://github.com/".insteadOf "ssh://git@github.com/" && \
+#     git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/" && \
 #     npm install
 
 # Copy app source
