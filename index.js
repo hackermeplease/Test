@@ -9,7 +9,8 @@ class BotSystem {
    constructor() {
       global.__basedir = __dirname;
       this.app = express();
-      this.port = process.env.PORT || 3000;
+      this.port = process.env.PORT || 7860; // Changed to 7860 to match Dockerfile
+      this.app.use(express.json()); // Add JSON middleware
    }
 
    async initialize() {
@@ -25,15 +26,18 @@ class BotSystem {
          return await connect();
       } catch (error) {
          console.error("Initialization error:", error);
+         process.exit(1); // Exit on critical error
       }
    }
 
    async startServer() {
       this.app.get("/", (req, res) => {
-         res.send("Bot Running");
+         res.status(200).json({ status: "running" }); // Better response
       });
 
-      this.app.listen(this.port, () => {});
+      this.app.listen(this.port, '0.0.0.0', () => { // Added '0.0.0.0' for Docker
+         console.log(`Server running on port ${this.port}`);
+      });
    }
 
    async tempDir() {
@@ -55,13 +59,12 @@ session
 package-lock.json
 database.db`;
 
-      fs.writeFile(".gitignore", content, err => {
-         if (err) {
-            console.error("Error creating .gitignore file:", err);
-         } else {
-            console.log(".gitignore file created successfully!");
-         }
-      });
+      try {
+         await fs.writeFile(".gitignore", content);
+         console.log(".gitignore created");
+      } catch (err) {
+         console.error("Error creating .gitignore:", err);
+      }
    }
 
    async main() {
@@ -71,10 +74,20 @@ database.db`;
          await this.tempDir();
          await this.createGitignore();
       } catch (error) {
-         console.warn("BOT SYSTEM FAILED");
+         console.error("Bot System Failed:", error);
+         process.exit(1);
       }
    }
 }
 
 const botSystem = new BotSystem();
 botSystem.main();
+
+// Error handlers
+process.on('unhandledRejection', (err) => {
+   console.error('Unhandled Rejection:', err);
+});
+
+process.on('uncaughtException', (err) => {
+   console.error('Uncaught Exception:', err);
+});
